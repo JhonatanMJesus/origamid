@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="src/vue.js"></script>
+    <title>Vue.js</title>
+</head>
+
+<body>
+    <!-- Aula -->
+    <div id="app">
+        <!-- O v-html renderiza conteúdo html dentro de uma tag. Modifica o innerHtml do elemento
+        Não utilizar v-html em inputs ou locais que o usuário/cliente possa manipular, pois poderá
+        ser escrito algum script de ataque à aplicação 
+        -->
+        <div v-html="link"></div>
+        <!-- O v-text altera o conteúdo do elemento por um texto, equivalente ao innerText -->
+        <p v-text="fruta">Conteúdo não importa</p>
+
+        <hr />
+
+        <!-- O v-once vai renderizar o elemento somente uma vez. Ele pega os valores iniciais das variáveis e mesmo que sofram
+        alterações futuramente, ele deixa de ser reativo. -->
+        <p v-once>Valor inicial: R$ {{total - gasto}}</p>
+        <button @click="gasto += 5">Comprar banana R$ 5,00</button>
+        <p>Gasto: {{gasto}}</p>
+        <p>Saldo: R$ {{total - gasto}}</p>
+    </div>
+
+    <script>
+        const vm = new Vue({
+            el: "#app",
+            data: {
+                link: "<a href='https://origamid.com/'>Origamid</a>",
+                fruta: "Banana",
+                total: 150,
+                gasto: 0
+            }
+        })
+    </script>
+
+    <!-- Exercício: 
+        Renderize o conteúdo, apenas uma vez (não torne o mesmo reativo):
+
+        lista: "<ul><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul>"
+    -->
+
+    <div id="app2">
+        <div v-html="lista" v-once></div>
+    </div>
+
+    <script>
+        const vm2 = new Vue({
+            el: "#app2",
+            data: {
+                lista: "<ul><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul>"
+            }
+        })
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="src/vue.js"></script>
+    <title>Vue.js</title>
+</head>
+<body>
+    <div id="app">
+        {{total}}
+        <button @click="incrementar">Incrementar</button>
+        <button @click="diminuir">Diminuir</button>
+        <p>{{instrumento}}</p>
+        <button @click="mudarNome('Violão')">Violão</button>
+        <button @click="mudarNome('Guitarra')">Guitarra</button>
+    </div>
+
+    <script>
+        const vm = new Vue ({
+            el: "#app",
+            data: {
+                total: 0,
+                instrumento: ""
+            },
+            methods: {
+                incrementar(){
+                    this.total++;
+                },
+                diminuir() {
+                    this.total--;
+                },
+                mudarNome(instrumento) {
+                    this.instrumento = instrumento;
+                }
+            }
+        })
+    </script>
+</body>
+</html>

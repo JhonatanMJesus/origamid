@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="src/vue.js"></script>
+    <title>Vue.js</title>
+</head>
+
+<body>
+    <style>
+        .verde {
+            color: green;
+        }
+
+        .vermelho {
+            color: red;
+        }
+    </style>
+    <!-- Aula -->
+    <div id="app">
+        <!-- Utilizamos o v-on para validarmos algum evento, exemplo "Click" -->
+        <button v-on:click="handleClick">Clique Aqui</button>
+        <!-- o @ é um atalho para v-on -->
+        <button @click="handleClick">Clique Aqui 2</button>
+
+        <!-- podemos utilizar expressões para fazer alterações no elemento -->
+        <button @click="ativo = !ativo">Ativar</button>
+        <p :class="ativo ? 'verde' : 'vermelho'">Texto de Teste</p>
+
+        <hr>
+        <br />
+        <!-- utilizamos o prevent para previnir o comportamento padrão de um elemento e passar exatamente
+         as funções que queremos que o elemento faça -->
+        <a href="#interno" @click.prevent="handleClick">Link Interno</a>
+        <br />
+        <!-- O evento keyup mostra qual botão do teclado estamos apertando. -->
+        <input type="text" @keyup="handleClick">
+        <!-- Podemos passar também o botão específico para apertar pra ativar o evento. -->
+        <input type="text" @keyup.enter="handleClick">
+
+        <p @mousemove="handleMove">Esse é o mouse x: {{mouse.x}}</p>
+    </div>
+
+    <script>
+        const vm = new Vue({
+            el: "#app",
+            data: {
+                ativo: true,
+                mouse: ""
+            },
+            methods: {
+                handleClick(event) {
+                    console.log(event.key);
+                },
+                handleMove(event) {
+                    this.mouse = event
+                }
+            }
+        })
+    </script>
+
+    <!-- Exercício: 
+        
+        Utilizando API
+        https://api.origamid.dev/stock/aapl/quote
+
+        Adicione um evento de clique a cada <a> do html
+        acima e previna o comportamento padrão.
+
+        Faça o fetch dos dados do href ao click e mostre na
+        interface o companyName, latestPrice, marketCap
+        
+    -->
+
+    <div id="app2">
+        <ul>
+            <li><a href="https://api.origamid.dev/stock/aapl/quote" @click.prevent="puxarAcao">Apple</a></li>
+            <li><a href="https://api.origamid.dev/stock/googl/quote" @click.prevent="puxarAcao">Google</a></li>
+            <li><a href="https://api.origamid.dev/stock/amzn/quote" @click.prevent="puxarAcao">Amazon</a></li>
+            <li><a href="https://api.origamid.dev/stock/ebay/quote" @click.prevent="puxarAcao">Ebay</a></li>
+            <li><a href="https://api.origamid.dev/stock/pypl/quote" @click.prevent="puxarAcao">Paypal</a></li>
+        </ul>
+
+        <div>
+            <p>CompanyName: {{acao.companyName}}</p>
+            <p>MarketCap: {{acao.marketCap}}</p>
+            <p>LatestPrice: {{acao.latestPrice}}</p>
+        </div>
+    </div>
+
+    <script>
+        const vm2 = new Vue({
+            el: "#app2",
+            data: {
+                acao: {}
+            },
+            methods: {
+                puxarAcao(event){
+                    const url = event.currentTarget.href;
+                    fetch(url).then(r => r.json())
+                    .then(r => {
+                        this.acao = r;
+                    })
+                }
+            }
+        })
+    </script>
+
+</body>
+
+</html>

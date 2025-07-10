@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="src/vue.js"></script>
+    <title>Vue.js</title>
+</head>
+
+<body>
+    <style>
+    </style>
+    <!-- Aula -->
+    <div id="app">
+        <template v-if="logado">
+            <!-- Utilizamos o v-if para aplicarmos uma condição de true or false, igual a lógica comum de if else -->
+            <p >Você está logado</p>
+            <button @click="logado = false">Deslogar</button>
+            <!-- o v-else ocorre caso a lógica do if retorne false, podendo também ter v-else-if e validar se outra lógica é true -->
+        </template>
+        <template v-else>
+            <p>Usuário deslogado</p>
+            <button @click="logado = true">Logar</button>
+        </template>
+    </div>
+
+    <script>
+        const vm = new Vue({
+            el: "#app",
+            data: {
+                logado: false
+            }
+        })
+    </script>
+
+    <!-- Exercício:
+        Simule a adição de um produto no carrinho
+        este produto possui estoque de 7 itens
+        (utilize a mesma ideia do contador).
+
+        Ao atingir 7 itens mostre uma mensagem informando
+        não ser possível adicinar mais do que 7 itens.
+
+        Remova também o botão de adicionar itens.
+    -->
+
+    <div id="app2">
+        <h1>Carrinho</h1>
+        <p>Quantidade: {{quantidade}}</p>
+        <button v-show="estoque" @click="adicionarItem">Adicionar</button>
+        <button v-show="quantidade" @click="removerItem">Remover</button>
+        <p v-if="estoque === 0">Não temos mais itens no estoque</p>
+    </div>
+
+    <script>
+        const vm2 = new Vue({
+            el: "#app2",
+            data: {
+                quantidade: 0,
+                estoque: 7
+            },
+            methods: {
+                adicionarItem(){
+                    this.quantidade++;
+                    this.estoque--;
+                },
+                removerItem(){
+                    this.quantidade--;
+                    this.estoque++;
+                }
+            }
+        })
+    </script>
+
+</body>
+
+</html>

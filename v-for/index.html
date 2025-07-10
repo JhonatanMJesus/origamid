@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="src/vue.js"></script>
+    <title>Vue.js</title>
+</head>
+
+<body>
+    <!-- Aula -->
+    <div id="app">
+        <ul>
+            <!-- v-for segue a lógica de repetição for do javascript -->
+            <li v-for="(fruta, index) in frutas">{{fruta}} {{index}}</li>
+        </ul>
+        <!-- funciona também com objetos -->
+        <ul>
+            <!-- Adicionamos a :key para tornarmos cada elemento unico, para caso de alguma interação com a aplicação
+            ocorrer, ele saber exatamente qual elemento ele é -->
+            <li v-for="({nome, populacao}, key) in estados" :key="key + nome">
+                <p>{{nome}}</p>
+                <p>{{populacao}}</p>
+            </li>
+        </ul>
+
+        <!-- Adicionar itens em um array diretamente não ativa a reatividade, só irá ativar
+        se utilizarmos uma função que faça essa ativação, exemplo: .pop() .push() etc. -->
+        <div v-for="fruta in frutas">{{fruta}}</div>
+        <p>Com reatividade</p>
+        <button @click="removerItem">Remover Item</button>
+        <p>Sem reatividade</p>
+        <button @click="mudarItem">Mudar Item</button>
+        
+    </div>
+
+    <script>
+        const vm = new Vue({
+            el: "#app",
+            data: {
+                frutas: ["Banana", "Uva", "Limão", "Laranja"],
+                estados: {
+                    sp: {
+                        populacao: "45 milhões",
+                        nome: "São Paulo"
+                    },
+                    mg: {
+                        populacao: "21 milhões",
+                        nome: "Minas Gerais"
+                    },
+                    rj: {
+                        populacao: "17 milhões",
+                        nome: "Rio de Janeiro"
+                    }
+                }
+            },
+            methods: {
+                // com reatividade
+                removerItem(){
+                    this.frutas.pop();
+                },
+                // sem reatividade
+                mudarItem(){
+                    this.frutas[0] = "Morango";
+                }
+            }
+        })
+    </script>
+
+    <!-- Exercício: 
+        
+        
+    -->
+
+    <div id="app2">
+        
+    </div>
+    <script>
+        const vm2 = new Vue({
+            el: "#app2",
+            data: {
+                
+            }
+        })
+    </script>
+
+</body>
+
+</html>
