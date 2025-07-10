@@ -69,18 +69,55 @@
     </script>
 
     <!-- Exercício: 
+        Utilizando a api:
+        https://viacep.com.br/ws/04538133/json/
+        Mostre o cep, logradouro, complemento, bairro, localidade e uf do que for retornado.
+
         
+        Use o arquivo json da aula, para listar os cursos e as matérias.
         
     -->
 
     <div id="app2">
-        
+        <hr />
+        <h1>Exercício</h1>
+        <button @click="puxarEndereco">Clique</button>
+        <div v-for="(dado, key) in endereco">
+            {{key}}: {{dado}}
+        </div>
+        <button @click="puxarCursos">Cursos</button>
+        <div v-for="curso in cursos">
+            <h1>{{curso.curso}}</h1>
+            <h3>Acesse: <a :href="curso.link">{{curso.link}}</a></h3>
+            <h2>Aulas</h2>
+            <h3 v-for="aula in curso.aulas">
+                Nome: {{aula.nome}} <br />
+                Tempo: {{aula.tempo}}
+            </h3>
+        </div>
     </div>
     <script>
         const vm2 = new Vue({
             el: "#app2",
             data: {
-                
+                endereco: {},
+                cursos: {}
+            },
+            methods: {
+                puxarEndereco(){
+                    fetch("https://viacep.com.br/ws/04538133/json/")
+                    .then(r => r.json())
+                    .then(json => {
+                        this.endereco = json;
+                    })
+                },
+                puxarCursos(){
+                    fetch("src/cursos.json")
+                    .then(r => r.json())
+                    .then(json => {
+                        this.cursos = json;
+                    })
+                }
             }
         })
     </script>
