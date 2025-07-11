@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="src/vue.js"></script>
+    <title>Vue.js</title>
+</head>
+
+<body>
+    <!-- Aula -->
+    <div id="app">
+        <!-- Quando precisamos modificar um dado usando JavaScript, podemos utilizar uma propriedade
+        dentro de computed -->
+        <p>
+            {{total}}
+        </p>
+        <h1>Carros</h1>
+        <ul>
+            <li v-for="{marca, cor} in carros">
+                Marca: {{marca}} <br>
+                Car: {{cor}}
+            </li>
+        </ul>
+        <button @click="removerCarro">Remover</button>
+        <h1>Carros Pretos</h1>
+        <ul>
+            <li v-for="{marca, cor} in carrosPretos">
+                Marca: {{marca}} <br />
+                Cor: {{cor}}
+            </li>
+        </ul>
+        <!-- O watch é quase igual, porém ele fica observando as interações com a aplicação
+        e consegue te mostrar o valor novo e o valor antigo quando algo é alterado -->
+        <div>
+            <h1>Contador</h1>
+            <h1>{{contador}}</h1>
+            <button @click="contador++">Adicionar</button>
+        </div>
+    </div>
+
+    <script>
+        const vm = new Vue({
+            el: "#app",
+            data: {
+                contador: 0,
+                preco: 59,
+                desconto: 10,
+                carros: [
+                    {
+                        marca: "VW",
+                        cor: "Azul"
+                    },
+                    {
+                        marca: "Ford",
+                        cor: "Preto"
+                    },
+                    {
+                        marca: "Tesla",
+                        cor: "Branco"
+                    },
+                    {
+                        marca: "Ferrari",
+                        cor: "Preto"
+                    }],
+                },
+            computed: {
+                total() {
+                    return "R$ " + (this.preco - this.desconto)
+                },
+                carrosPretos(){
+                    const filtro = this.carros.filter(({cor}) => cor == "Preto");
+                    return filtro;
+                }
+            },
+            watch: {
+                // a função precisa ter o mesmo nome que a propriedade que quer observar
+                contador(valorNovo, valorAntigo){
+                    console.log(valorAntigo);
+                    console.log(valorNovo);
+                },
+                carros(valorNovo, valorAntigo){
+                    console.log(valorNovo);
+                    console.log(valorAntigo);
+                }
+            },
+            methods: {
+                removerCarro(){
+                    this.carros.pop();
+                }
+            }
+        })
+    </script>
+
+    <!-- Exercício: 
+        
+        
+    -->
+
+    <div id="app2">
+        
+    </div>
+
+    <script>
+        const vm2 = new Vue({
+            el: "#app2",
+            data: {
+                
+            }
+        })
+    </script>
+
+</body>
+
+</html>
