@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="src/vue.js"></script>
+    <title>Vue.js</title>
+</head>
+
+<body>
+    <!-- Aula -->
+    <div id="app">
+        <p>{{mensagem}}</p>
+        <div>{{dados}}</div>
+    </div>
+
+    <script>
+        const vm = new Vue({
+            el: "#app",
+            data: {
+                mensagem: "Sou uma mensagem",
+                dados: {}
+            },
+            methods: {
+                puxarGithub(){
+                    fetch("https://api.github.com/users/origamid")
+                    .then(r => r.json())
+                    .then(json => {
+                        this.dados = json;
+                    });
+                }
+            },
+            // Aqui criamos métodos prioritários que queremos que seja criado antes de criar os elementos/componentes do Vue
+            beforeCreate(){
+                console.log("Aqui estou antes da criação")
+                console.log(this.mensagem + ' aqui resultará em undefined')
+            },
+            created(){
+                console.log("Aqui estou depois de criado")
+                console.log(this.mensagem + ' aqui resultará no valor do elemento mensagem após criado')
+                // Aqui ativamos a função puxarGithub sem a necessidade de clicar em botão, já é ativado assim que o Vue é criado.
+                this.puxarGithub();
+            },
+            // beforeMounted acessa todos os elementos do DOM porém antes de ser montado com os valores dos elementos,
+            // já possui as propriedades mas os valores ainda não foram passados ao DOM
+            beforeMount(){
+                //irá mostrar exatamente o código que estamos criando, sem substituições e reatividades do Vue
+                console.log("Elemento", this.$el)
+            },
+            //Depois de montado, temos o DOM com os valores das propriedades e com as variáveis preenchidas
+            mounted(){
+                console.log("Elemento", this.$el)
+            }
+        })
+    </script>
+
+    <!-- Exercício: 
+        
+        
+    -->
+
+    <div id="app2">
+        
+    </div>
+
+    <script>
+        const vm2 = new Vue({
+            el: "#app2",
+            data: {
+                
+            }
+        })
+    </script>
+
+</body>
+
+</html>

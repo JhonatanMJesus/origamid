@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="src/vue.js"></script>
+    <title>Vue.js</title>
+</head>
+
+<body>
+    <!-- Aula -->
+    <div id="app">
+        <!-- O v-model utiliamos para deixar reativo inputs de diferentes tipos -->
+        <input v-model="nome" type="text" /><br />
+        {{nome}}<br />
+        <textarea v-model="mensagem"></textarea><br />
+        {{mensagem}}<br />
+        <hr />
+        <!-- Do tipo checkbox, o v-model normalmente é de propriedade única, pois se tiver dois iguais, apenas vai duplicar a visualização -->
+        <input type="checkbox" id="receberEmail" v-model="receberEmail">
+        <label for="receberEmail">Receber Email</label>
+        {{receberEmail}}
+        <!-- Do tipo radio, normalmente são iguais, pois ele pegará o value do radio selecionado -->
+        <div>
+            <input type="radio" v-model="cor" value="Azul" id="azul" name="azul" />
+            <label for="azul">Azul</label>
+            <input type="radio" v-model="cor" value="Vermelho" id="vermelho" name="vermelho">
+            <label for="vermelho">Vermelho</label>
+            {{cor}}
+        </div>
+
+        <!-- No select, o v-model vai na raiz do select e o vue receberá o valor de cada value das options.
+        Lembrando que precisa criar a primeira opção disabled com value vazio para evitar bugs, principalmente no iOS -->
+        <div>
+            <select v-model="fruta">
+                <option disabled value="">Selecione uma fruta...</option>
+                <option value="banana">Banana</option>
+                <option value="morango">Morango</option>
+                <option value="uva">Uva</option>
+            </select>
+            {{fruta}}
+        </div>
+
+        <!-- Modificadores:
+        .lazy = atrasa a reatividade do vue, que por padrão é acionado sempre que é digitado algo. Só será ativado depois que a
+        pessoa sair do campo onde está digitando.
+        .number = força que o input seja number
+        .trim = tira todos os espaços do input -->
+    </div>
+
+    <script>
+        const vm = new Vue({
+            el: "#app",
+            data: {
+                nome: "",
+                mensagem: "",
+                email: "",
+                receberEmail: "",
+                cor: "",
+                fruta: ""
+            }
+        })
+    </script>
+
+    <!-- Exercício: 
+        1 - Crie um criador de botões.
+
+        O usuário poderá definir:
+        width,
+        height,
+        font-size,
+        font-family,
+        text-align,
+        background,
+        color,
+        border-radius,
+
+        As escolhas serão feitas em campos de
+        formulário. Cada escolha deverá ser 
+        refletida em um elemento (o botão).
+
+
+        2 - Crie um formulário com, nome, email, telefone e mensagem.
+        Ao clicar em enviar, as informações preenchidas no formulário
+        devem aparecer abaixo do mesmo. (previna o comportamento padrão do botão enviar)
+        
+    -->
+    <hr>
+    <div id="app2">
+        <h1>Exercício</h1>
+        <h2>Gerador de botão</h2>
+        <form action="#">
+            <label for="width">Digite a largura:</label>
+            <input type="text" name="width" id="width" v-model="btn.width" /><br />
+            <label for="height">Digite a altura:</label>
+            <input type="text" name="height" id="height" v-model="btn.height" /><br />
+            <label for="fontSize">Digite o tamanho da fonte:</label>
+            <input type="text" name="fontSize" id="fontSize" v-model="btn.fontSize" /><br />
+            <label for="fontFamily">Digite o nome da fonte:</label>
+            <input type="text" name="fontFamily" id="fontFamily" v-model="btn.fontFamily" /><br />
+            <label for="textAlign">Selecione a direção de alinhamento:</label>
+            <select v-model="btn.textAlign">
+                <option disabled value="">Selecione...</option>
+                <option value="center">Centro</option>
+                <option value="justify">Justificar</option>
+                <option value="start">Início</option>
+                <option value="end">Fim</option>
+                <option value="left">Esquerda</option>
+                <option value="right">Direita</option>
+            </select><br />
+            <label for="background">Cor de fundo:</label>
+            <input type="color" name="background" id="background" v-model="btn.background" /><br />
+            <label for="borderRadius">Tamanho do arredondamento:</label>
+            <input type="text" name="borderRadius" id="borderRadius" v-model.trim="btn.borderRadius"><br />
+            <label for="color">Cor da letra:</label>
+            <input type="color" name="color" id="color" v-model="btn.color" />
+        </form>
+        <p>Botão Gerado:</p>
+        <button :style="btn">Botão</button>
+
+
+        <hr />
+        <h1>Exercício 2</h1>
+        <hr />
+        <form action="">
+            <label for="nome">Digite seu nome:</label>
+            <input type="text" name="nome" id="nome" v-model="nome">
+            <label for="email">Digite seu email:</label>
+            <input type="text" name="email" id="email" v-model="email">
+            <label for="telefone">Digite seu telefone:</label>
+            <input type="text" name="telefone" id="telefone" v-model="telefone">
+            <label for="mensagem">Digite sua mensagem:</label>
+            <textarea name="mensagem" id="mensagem" v-model="mensagem"></textarea>
+            <input @click.prevent="enviarFormulario" type="submit">
+        </form>
+        <div>
+            <ul>
+                <li v-for="(valor, chave) in resultado">
+                    {{chave}}: {{valor}}
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const vm2 = new Vue({
+            el: "#app2",
+            data: {
+                btn: {
+                    width: "",
+                    height: "",
+                    fontSize: "",
+                    fontFamily: "",
+                    textAlign: "",
+                    background: "",
+                    color: "",
+                    borderRadius: ""
+                },
+                nome: "",
+                email: "",
+                telefone: "",
+                mensagem: "",
+                resultado: {}
+            },
+            methods: {
+                enviarFormulario(){
+                    this.resultado = {
+                        nome: this.nome,
+                        email: this.email,
+                        telefone: this.telefone,
+                        mensagem: this.mensagem,
+                    }
+                }
+            }
+        })
+    </script>
+    <style>
+        input {
+            display: block;
+        }
+        textarea {
+            display: block;
+        }
+    </style>
+
+</body>
+
+</html>

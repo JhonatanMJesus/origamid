@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="src/vue.js"></script>
+    <title>Vue.js</title>
+</head>
+
+<body>
+    <!-- Aula -->
+    <div id="app">
+        <button @click="contador++">
+            {{contador}}
+        </button>
+        <button @click="destruir">
+            Destruir
+        </button>
+    </div>
+    
+
+    <script>
+        const vm = new Vue({
+            el: "#app",
+            data: {
+                contador: 0
+            },
+            methods: {
+                destruir(){
+                    this.$destroy();
+                }
+            },
+            //Antes do DOM ser atualizado
+            beforeUpdate(){
+                console.log("Teste");
+            },
+            //Após atualizar o DOM
+            updated(){
+                console.log("Teste updated");
+            },
+            beforeDestroy(){
+                console.log("Va destruir");
+            },
+            destroyed(){
+                console.log("Destruiu");
+            }
+        })
+    </script>
+
+    <!-- Exercício: 
+        
+        
+    -->
+
+    <div id="app2">
+        
+    </div>
+
+    <script>
+        const vm2 = new Vue({
+            el: "#app2",
+            data: {
+                
+            }
+        })
+    </script>
+
+</body>
+
+</html>

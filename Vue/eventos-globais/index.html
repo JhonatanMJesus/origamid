@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="src/vue.js"></script>
+    <title>Vue.js</title>
+</head>
+
+<body>
+    <!-- Aula -->
+    <div id="app">
+        <!-- Não podemos criar diretivas na tag body pois o Vue só inicializa na div com id = app. Para criarmos eventos
+        globais, podemos utilizar funções dentro da função created(), que é nativa do Vue, para escutar/realizar
+        qualquer ação logo depois que o Vue é renderizado/criado. -->
+        <p>{{totalScroll}}</p>
+    </div>
+
+    <script>
+        const vm = new Vue({
+            el: "#app",
+            data: {
+                totalScroll: 0
+            },
+            methods: {
+                handleScroll(){
+                    this.totalScroll = window.scrollY
+                }
+            },
+            created(){
+                window.addEventListener("scroll", this.handleScroll)
+            }
+        })
+    </script>
+    <style>
+        body{
+            height: 2000px;
+        }
+        p{
+            position: fixed;
+        }
+    </style>
+
+</body>
+
+</html>

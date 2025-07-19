@@ -42,19 +42,69 @@
     </script>
 
     <!-- Exercício: 
+        Você possui o nome e sobrenome do usuário em data,
+        crie uma propriedade computed que retorne o nome completo
         
+        Utilize a rest API para puxar as capitais dos paises
+        Use um campo de select, onde o usuário pode selecionar o país.
+        https://restcountries.com/v2/all
+
+        Com uma função watch, mude a capital de acordo com o país selecionado:
+
+        Ex de campo select:
+
+        <select name="paises" id="paises" v-model="selecionado">
+            <option v-for="pais in paises" :value="pais.name">
+            {{pais.name}}
+            </option>
+        </select>
         
     -->
 
     <div id="app2">
-        
+        {{nomeCompleto}}
+
+        <button @click="puxarPaises">Puxar países</button>
+
+        <select name="paises" id="paises" v-model="selecionado">
+            <option v-for="pais in paises" :value="pais.name">
+                {{pais.name}}
+            </option>
+        </select>
+        <div>
+           <p>País: {{selecionado}}</p>
+           <p>Capital: {{capital.capital}}</p>
+        </div>
     </div>
 
     <script>
         const vm2 = new Vue({
             el: "#app2",
             data: {
-                
+                nome: "Jhonatan",
+                sobrenome: "Marcelino",
+                paises: {},
+                capital: "",
+                selecionado: ""
+            },
+            methods: {
+                puxarPaises(){
+                    fetch("https://restcountries.com/v2/all?fields=name,capital")
+                    .then(r => r.json())
+                    .then( json => {
+                        this.paises = json;
+                    })
+                }
+            },
+            computed: {
+                nomeCompleto(){
+                    return this.nome + " " + this.sobrenome;
+                }
+            },
+            watch: {
+                selecionado(valor){
+                    this.capital = this.paises.find((pais) => pais.name === valor)
+                }
             }
         })
     </script>
