@@ -7,7 +7,7 @@
 const coresArray = ['azul', 'roxo', 'laranja', 'verde', 'vermelho', 'cinza'];
 
 ## Código da aula anterior
-
+```jsx
 const App = () => {
   const [cores, setCores] = React.useState([]);
 
